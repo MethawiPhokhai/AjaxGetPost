@@ -1,0 +1,52 @@
+function RequestData(_url) {
+    this.request = function () {
+        return $.Deferred(function ($dfd) {
+            $.ajax({
+                url: _url,
+                type: 'get',
+                dataType: 'jsonp',
+                async: true,
+                cache: false,
+                success: function (data, textStatus, jqXHR) {
+                    $dfd.resolve(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $dfd.reject();
+                }
+            });
+            return $dfd.promise();
+        });
+    };
+    this.loadData = function (callback) {
+        $.when(this.request()).done(function (data) {
+            callback(data);
+        });
+    };
+}
+
+function RequestPostData(_url, _data) {
+    this.request = function () {
+        return $.Deferred(function ($dfd) {
+            $.ajax({
+                url: _url,
+                type: 'post',
+                data: _data,
+                dataType: 'jsonp',
+                async: true,
+                cache: false,
+                success: function (data, textStatus, jqXHR) {
+                    $dfd.resolve(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $dfd.reject();
+                }
+            });
+            return $dfd.promise();
+        });
+    };
+    this.loadData = function (callback) {
+        $.when(this.request()).done(function (data) {
+            callback(data);
+        });
+    };
+}
